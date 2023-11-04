@@ -15,12 +15,27 @@
             </div>
             <div>
                 <div class="player-box">
-                    <img src="https://staticg.sportskeeda.com/editor/2023/10/f3aca-16974673001885-1920.jpg" alt="heartsteel logo" style="width: 400px;height: 400px;transform: translateX(600px)translateY(50px);">
+                    <audio controls src="song1.mp3" style="transform: translateX(210px)translateY(75px);">
+                        <a href="song1.mp3"> Download audio </a>
+                    </audio>
+                    <img src="https://static.wikia.nocookie.net/kpop/images/3/37/HEARTSTEEL_Paranoia_album_cover.png/revision/latest?cb=20231023151144" alt="heartsteel logo" style="width: 400px;height: 400px;transform: translateX(-160px)translateY(25px);">
                 </div>
             </div>
             <div>
                 <h3>Contact Us</h3>
-                <p>[Form goes here]</p>
+                <p>
+                    <form style="text-align: left; padding-left: 25px;">
+                        <input type="radio" id="request" name="contact_type" value="Song Request">
+                        <label for="request">Song Request</label><br>
+                        <input type="radio" id="feedback" name="contact_type" value="Feedback">
+                        <label for="feedback">Feedback</label><br>
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" size="30"><br>
+                        <label for="msg">Message:</label><br>
+                        <textarea id="msg" name="msg" rows="5" cols="50"></textarea><br>
+                        <input type="button" id = "form_submit" value="Submit">
+                    </form>
+                </p>
             </div>
             <div>
                 <div class="nav-container">
@@ -31,5 +46,9 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            document.getElementById('form_submit').style.transform="translateY(-25px)";
+        </script>
     </body>
 </html>
