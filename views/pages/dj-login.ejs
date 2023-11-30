@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include('../partials/head'); %>
+    </head>
+    <body>
+        <div class="page-container">
+            <div>
+                <div class="nav-container">
+                    <a href="/index">Home</a>
+                    <a href="/songs">Songs</a>
+                    <a href="/contact">Contact</a>
+                    <a href="/login">Logout</a>  
+                </div>
+            </div>
+            <div>
+                <div class="player-box">
+                    <audio id="myAudio" src="<%= song1.audio %>" autoplay loop></audio>
+                    <button id="playPauseButton">
+                        <img src="pauseicon.png" class="pauseIcon" style="width: 400px;height: 400px;" alt="Pause">
+                        <img src="playicon.png" class="playIcon" style="width: 400px;height: 400px;display: none;" alt="Play">
+                    </button>
+
+                    <script>
+                        const audioElement = document.getElementById('myAudio');
+                        const playPauseButton = document.getElementById('playPauseButton');
+                        const playIcon = document.querySelector('.playIcon');
+                        const pauseIcon = document.querySelector('.pauseIcon');
+
+                        playPauseButton.addEventListener('click', () => {
+                            if (audioElement.paused) {
+                            audioElement.play();
+                            playIcon.style.display = 'none';
+                            pauseIcon.style.display = 'inline-block';
+                            } else {
+                            audioElement.pause();
+                            playIcon.style.display = 'inline-block';
+                            pauseIcon.style.display = 'none';
+                            }
+                        });
+
+                        audioElement.addEventListener('ended', () => {
+                            location.reload();
+                        });
+
+                        window.addEventListener('beforeunload', () => {
+                            const currentVolumeSlider = volumeSlider.value;
+                            const currentVolume = audioElement.volume;
+                            const currentTime = audioElement.currentTime;
+                            localStorage.setItem('lastVolumeSlider', currentVolumeSlider);
+                            localStorage.setItem('lastVolume', currentVolume);
+                            localStorage.setItem('lastTime', currentTime);
+                        });
+                          
+                        window.addEventListener('load', () => {
+                            const storedVolumeSlider = localStorage.getItem('lastVolumeSlider');
+                            const storedVolume = localStorage.getItem('lastVolume');
+                            const storedTime = localStorage.getItem('lastTime');
+                            if (storedVolume) {
+                                volumeSlider.value = storedVolumeSlider;
+                                audioElement.volume = storedVolume;
+                                audioElement.currentTime = storedTime;
+                            }
+                        });
+                    </script>
+
+                    <img src="<%= song1.albumArt %>" alt="art" style="width: 400px;height: 400px;">
+                    
+                    <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+                    <script>
+                        const volumeSlider = document.getElementById('volumeSlider');
+
+                        volumeSlider.addEventListener('input', () => {
+                            audioElement.volume = volumeSlider.value;
+                        });
+                    </script>
+                    <style>
+                        input[type=range] {
+                          transform: rotate(-90deg);
+                          width: 350px;
+                          height: 400px;
+                        }
+
+                    </style>
+                </div>
+            </div>
+            <div>
+                <h3>Welcome DJ!</h3>
+                <ul id= "songList" style="list-style-type: none;">
+                    <% for (const song of songs) { %>
+                        <li data-id="<%= song.title %>"><%= song.title %> --- <%= song.artist %></li>
+                    <% } %>
+                </ul>
+                <script>
+                    const listItems = document.querySelectorAll('#songList li');
+
+                    for (const item of listItems) {
+                        item.addEventListener('click', (event) => {
+                            const itemId = event.target.dataset.id;
+                            
+                            for (const otherItem of listItems) {
+                                otherItem.style.color = 'white';
+                            }
+                            const audioElement = document.getElementById('myAudio');
+                            audioElement.currentTime = 0;
+                            location.reload();
+                            setTimeout(() => {
+                              event.target.style.backgroundColor = 'transparent';
+                              event.target.style.color = 'black';
+                            }, 500);
+
+                            fetch('/server.js', {method: 'POST', headers: {'Content-Type': 'application/json'},body: JSON.stringify({ itemId })})});
+                            
+                            
+                        }
+                    
+                </script>
+            </div>
+            <div>
+                <div class="nav-container">
+                    <a href="/index">Home</a>
+                    <a href="/songs">Songs</a>
+                    <a href="/contact">Contact</a>  
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
