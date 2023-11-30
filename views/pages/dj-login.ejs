@@ -94,25 +94,24 @@
                 <script>
                     const listItems = document.querySelectorAll('#songList li');
 
-                    for (const item of listItems) {
+                   for (const item of listItems) {
                         item.addEventListener('click', (event) => {
-                            const itemId = event.target.dataset.id;
-                            
                             for (const otherItem of listItems) {
+                                otherItem.style.backgroundColor = 'transparent';
                                 otherItem.style.color = 'white';
                             }
+                            
+                            event.target.style.backgroundColor = 'purple';
+                            const itemId = event.target.dataset.id;
+                            
+                            
                             const audioElement = document.getElementById('myAudio');
                             audioElement.currentTime = 0;
                             location.reload();
-                            setTimeout(() => {
-                              event.target.style.backgroundColor = 'transparent';
-                              event.target.style.color = 'black';
-                            }, 500);
 
-                            fetch('/server.js', {method: 'POST', headers: {'Content-Type': 'application/json'},body: JSON.stringify({ itemId })})});
-                            
-                            
-                        }
+                            fetch('/server.js', {method: 'POST', headers: {'Content-Type': 'application/json'},body: JSON.stringify({ itemId })})
+                        });
+                    }
                     
                 </script>
             </div>
