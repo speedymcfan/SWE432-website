@@ -10,7 +10,8 @@
                     <a href="/index">Home</a>
                     <a href="/songs">Songs</a>
                     <a href="/about">About</a>
-                    <a href="/contact">Contact</a>  
+                    <a href="/contact">Contact</a>
+                    <a href="/login">Login</a>  
                 </div>
             </div>
             <div>
@@ -36,6 +37,26 @@
                             audioElement.pause();
                             playIcon.style.display = 'inline-block';
                             pauseIcon.style.display = 'none';
+                            }
+                        });
+
+                        window.addEventListener('beforeunload', () => {
+                            const currentVolumeSlider = volumeSlider.value;
+                            const currentVolume = audioElement.volume;
+                            const currentTime = audioElement.currentTime;
+                            localStorage.setItem('lastVolumeSlider', currentVolumeSlider);
+                            localStorage.setItem('lastVolume', currentVolume);
+                            localStorage.setItem('lastTime', currentTime);
+                        });
+                          
+                        window.addEventListener('load', () => {
+                            const storedVolumeSlider = localStorage.getItem('lastVolumeSlider');
+                            const storedVolume = localStorage.getItem('lastVolume');
+                            const storedTime = localStorage.getItem('lastTime');
+                            if (storedVolume) {
+                                volumeSlider.value = storedVolumeSlider;
+                                audioElement.volume = storedVolume;
+                                audioElement.currentTime = storedTime;
                             }
                         });
                     </script>
